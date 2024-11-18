@@ -1,5 +1,11 @@
 /* ----------- External ----------- */
-import React, { createContext, useState, useContext, useMemo } from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useMemo,
+  useEffect,
+} from 'react';
 
 /* ----------- Interfaces ----------- */
 interface AuthContextData {
@@ -17,6 +23,21 @@ interface Props {
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   /* ----------- States ----------- */
   const [token, setToken] = useState<string>('');
+
+  /* ----------- Effects ----------- */
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const local_token = localStorage.getItem('@expenses:token');
+
+      if (local_token != null && local_token !== '') {
+        setToken(local_token);
+      }
+    }
+
+    return () => {
+      setToken('');
+    };
+  }, []);
 
   const value = useMemo(
     () => ({

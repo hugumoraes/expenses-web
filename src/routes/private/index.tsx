@@ -4,15 +4,17 @@ import { Navigate, type RouteObject } from 'react-router-dom';
 /* ---------- Components ---------- */
 import { Error } from '_components/Error';
 import { Home } from '_components/Home';
+import { ProtectedRoute } from '_components/Auth/ProtectedRoute';
 
 /* ---------- Constants ---------- */
 const private_routes_array: RouteObject[] = [
   {
-    path: '/',
-    element: <Home />,
-    errorElement: <Error />,
+    element: <ProtectedRoute />,
+    children: [
+      { path: '/', element: <Home />, errorElement: <Error /> },
+      { path: '*', element: <Navigate to="/" replace /> },
+    ],
   },
-  { path: '*', element: <Navigate to="/" replace /> },
 ];
 
 export const private_routes = (): RouteObject => {

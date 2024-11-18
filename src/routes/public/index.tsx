@@ -3,13 +3,19 @@ import { Navigate, type RouteObject } from 'react-router-dom';
 
 /* ---------- Components ---------- */
 import { Error } from '_components/Error';
-import { Home } from '_components/Home';
+import { Login } from '_components/Login';
+import { Register } from '_components/Register';
 
 /* ---------- Constants ---------- */
 const public_routes_array: RouteObject[] = [
   {
-    path: '/',
-    element: <Home />,
+    path: '/login',
+    element: <Login />,
+    errorElement: <Error />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
     errorElement: <Error />,
   },
   { path: '*', element: <Navigate to="/login" replace /> },
