@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  flex-direction: column;
+
 
   width: 100vw;
   height: 100vh;
@@ -8,6 +8,45 @@
 
 .main {
   display: flex;
+  flex-direction: column;
 
   flex: 1;
+
+  padding: 24px;
+
+  background: #c0c0c0;
+
+  h1 {
+    color: #000;
+
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+  }
+}
+
+.transactions_container {
+
+  display: flex;
+
+}
+
+.transaction_container {
+  width: 480px;
+  height: 300px;
+
+  background: #fff;
+
+  box-shadow: 3px 6px 9px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+
+  padding: 10px;
 }

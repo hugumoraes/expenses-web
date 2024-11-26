@@ -1,4 +1,5 @@
 /* ----------- External ----------- */
+import { jwtDecode } from 'jwt-decode';
 import React, {
   createContext,
   useState,
@@ -9,6 +10,7 @@ import React, {
 
 /* ----------- Interfaces ----------- */
 interface AuthContextData {
+  userId: number;
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -20,9 +22,16 @@ interface Props {
   children?: React.ReactNode;
 }
 
+interface Decoded {
+  sub: string;
+  exp: number;
+  user_id: number;
+}
+
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   /* ----------- States ----------- */
   const [token, setToken] = useState<string>('');
+  const [userId, setUserId] = useState<number>(0);
 
   /* ----------- Effects ----------- */
   useEffect(() => {
@@ -30,6 +39,15 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       const local_token = localStorage.getItem('@expenses:token');
 
       if (local_token != null && local_token !== '') {
+        const { user_id, exp }: Decoded = jwtDecode(local_token);
+
+        if (Date.now() >= exp * 1000) {
+          setToken('');
+          localStorage.removeItem('@expenses:token');
+          return;
+        }
+
+        setUserId(user_id);
         setToken(local_token);
       }
     }
@@ -41,6 +59,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const value = useMemo(
     () => ({
+      userId,
       token,
       setToken,
     }),
